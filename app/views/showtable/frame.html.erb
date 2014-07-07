@@ -1,0 +1,34 @@
+<script type="text/javascript">
+	var guessFontSize = 18; //TODO!: Should be take actual value
+	window.feed = [];
+</script>
+
+<% if current_user %>
+	<% @rss.each_with_index do |feed, i| %>
+		<%= javascript_tag do %>
+			window.feed[<%= i %>] = <%= raw feed.to_json %>;
+		<% end %>
+	<% end %>
+<% end %>
+
+<div id="screen" style="overflow-x:hidden;"></div>
+
+<script type="text/javascript">
+	window.onload = function(){
+		var comment_pos = 100;
+		var frame_width = 0;
+		var scr = document.getElementById("screen");
+
+		for (var i = feed.length; i--; ) {
+			for (var j = feed[i].channel.item.length; j--;) {
+				scr.innerHTML += "<div style='width:auto; margin-bottom:20px; margin-left:" + comment_pos + "px;" + "'>" + 
+				"<a href='" + feed[i].channel.item[j].link + "' target = _blank>" + 
+				feed[i].channel.item[j].title + "</a></div>";
+				comment_pos += 300;
+				frame_width += scr.lastChild.innerText.length * guessFontSize;
+			}
+		}
+		console.log(frame_width);
+		scr.style.width = frame_width;
+	}
+</script>

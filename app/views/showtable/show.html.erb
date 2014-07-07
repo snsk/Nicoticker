@@ -1,0 +1,101 @@
+<script type="text/javascript">
+window.feed = []
+</script>
+
+<% if current_user %>
+	<% @rss.each_with_index do |feed, i| %>
+		<%= javascript_tag do %>
+			window.feed[<%= i %>] = <%= raw feed.to_json %>;
+		<% end %>
+	<% end %>
+<% else %>
+<% end %>
+
+<div id="wrapper" style="width:100%; height:100%;"></div>
+
+<script type="text/javascript">
+
+var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+svg.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink");
+svg.setAttribute("id", "board");
+svg.setAttribute("width", "512");
+svg.setAttribute("height", "512");
+document.getElementById('wrapper').appendChild(svg);
+
+var wrapper = $('#wrapper');
+var canvas = $('#board');
+var intervalObj;
+var x  = 0;
+var x0  = 0;
+var movement = 0;
+
+document.write("<span style='color:white;background-color:black; margin-left:20px'>lastupdate: " + new Date() + "</span>");
+
+function linkBuilder(title, link, xVal, yVal){
+	var text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+	var svglink = document.createElementNS("http://www.w3.org/2000/svg", "a");
+
+	svglink.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", link);
+	svglink.setAttribute("target", "_blank");
+
+	text.setAttribute("x", xVal);
+	text.setAttribute("y", yVal);
+	text.setAttribute("font-size", 30);
+	text.setAttribute("fill", "white");
+	text.appendChild(document.createTextNode(title));
+	svglink.appendChild(text);
+	return svglink;
+}
+
+$(document).ready(function(){
+	//TODO:How to determine canvas area width?
+	canvas.attr({width:feed[0].channel.item[0].title.substring(0).length * 500 + wrapper.width()});
+
+	var xPos = 30;
+	var yPos = 50;
+	for(var i = feed.length; i--; ) {
+		for(var j = feed[i].channel.item.length; j--;) {
+			if(yPos > canvas.height() - 50){
+				yPos = 50;
+			}
+			svg.appendChild(linkBuilder(feed[i].channel.item[j].title, feed[i].channel.item[j].link, xPos, yPos));
+			yPos += 100;
+			xPos += 300;
+			console.log("hight" + canvas.height());
+			console.log(xPos);
+			console.log(yPos);
+		}	
+	}
+	doScroll(canvas);
+});
+
+
+$("#board").draggable({
+	axis: "x",
+	start: function(e){
+		clearInterval(intervalObj);
+		movement = 0;
+		movement = e.clientX;
+	},
+	stop: function(e){
+		movement = movement - e.clientX;
+		x = x - movement;
+		doScroll(canvas, wrapper);
+	}
+}); 
+
+function doScroll(canvas){
+	var canvas_w = canvas.width();
+	//TODO: replace it! this code from JSDOIT!
+	intervalObj = setInterval(function(){
+		if(x < - canvas_w) x = x0;
+		canvas.css('left', x+'px');
+		x -= 4;
+		//console.log(x);
+	}, 30);
+	
+}
+
+</script>
+

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<meta http-equiv="refresh" content="3600;URL=./">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+
+<!-- Bootstrap core CSS -->
+<link href="/assets/bootstrap.css" rel="stylesheet">
+<link href="/assets/jumbotron.css" rel="stylesheet">
+
+<head>
+  <title>Nicoticker</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body style="background:#000">
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/show">Nico Ticker</a>
+        	<% if current_user %>
+               <%== " <a class='navbar-brand' href='/logout'>Logout</a>"  %>
+               <%== " <a class='navbar-brand' href='/settings'>FeedSettings</a>"  %>
+               <%== " <a class='navbar-brand' href='/show'>Top</a>"  %>
+               <%== " <span class='navbar-brand'> [ User: "  %>
+               <%= current_user.name %>さん
+               <%== " ]</span>"  %>
+           <% else %>
+              <%== " <a class='navbar-brand' href='/auth/facebook'>Login with Facebook</a>"  %>
+           <% end %>
+        </div>
+      </div>
+    </div>
+
+<%= yield %>
+
+<script src="/assets/bootstrap.js"></script>
+
+</body>
+</html>

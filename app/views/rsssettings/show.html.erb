@@ -1,0 +1,15 @@
+<h3 style="color:white; margin-left:20px">rsssettings</h3>
+<span style="color:white; margin-left:20px">カンマ区切りでFeedのURLを入れてください</span>
+<p>
+<% if current_user %>
+	<%= form_tag('/settings/add/') do %>
+		<%= text_area_tag 'contents', @current_userRssList.rslist, :size => "100x20" %>
+		<%= submit_tag('更新') %>
+	<% end %>
+<% else %>
+       ログインしていません
+<% end %>
+<hr>
+
+
+</p>

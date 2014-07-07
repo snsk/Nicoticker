@@ -1,0 +1,29 @@
+// Place all the styles related to the showtable controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+a {
+	text-decoration:none;
+}
+
+#wrap {
+	position: relative;
+}
+#box {
+	position: absolute;
+}
+
+div#wrapper {
+	height: 400px;
+	width: 578px;
+	overflow: hidden;
+	position:relative;
+	background-color: #000;
+}
+
+canvas#board {
+	border: solid 0px #333;
+	background-color: #000;
+	position: absolute;
+	left: 0px;
+}

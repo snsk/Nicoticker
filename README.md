@@ -2,6 +2,7 @@ Nicoticker
 ==========
 
 *rewindable* full screen RSS ticker. 
+
 <img src="https://raw.githubusercontent.com/snsk/Nicoticker/master/public/ss1.png" width="70%">
 
 ### 
